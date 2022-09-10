@@ -4,17 +4,45 @@
 <head>
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   <title>Les petits plats</title>
 </head>
 
 <body>
-  <!----------------------------------- Titre ---------------------------------->
   <header>
-    <h1>Les petits plats</h1>
+    <img src="assets/logo.png" alt="logo" class="logo" />
   </header>
+
+  <main class="main">
+    <section class="search-bar">
+      <div class="field-input">
+        <input class="search-input" type="text" placeholder="Rechercher une recette">
+        <img src="assets/search.png" alt="search" class="search" />
+      </div>
+    </section>
+
+    <section class="filter-section">
+      <div class="Ingredients">
+        <span class="arrow"></span>
+        <input class="ingredients-input" type="text" value="Ingrédients">
+        <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+      </div>
+      <div class="Appareils">
+        <span class="arrow"></span>
+        <input class="appareils-input" type="text" value="Appareils">
+        <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+      </div>
+      <div class="Ustensiles">
+        <span class="arrow"></span>
+        <input class="ustensiles-input" type="text" value="Ustensiles">
+        <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+      </div>
+    </section>
+  </main>
 
   <!------------------------------ JS Files ----------------------------------->
   <script src="scripts/pages/index.js"></script>
+  <script src="data/recipes.js"></script>
 </body>
 
 </html>
