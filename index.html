@@ -5,6 +5,8 @@
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
+  <script src="https://kit.fontawesome.com/36959caba5.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
   <title>Les petits plats</title>
 </head>
 
@@ -16,28 +18,44 @@
   <main class="main">
     <section class="search-bar">
       <div class="field-input">
-        <input class="search-input" type="text" placeholder="Rechercher une recette">
+        <input class="search-input" id="search-input" type="text" placeholder="Rechercher une recette">
         <img src="assets/search.png" alt="search" class="search" />
       </div>
     </section>
 
     <section class="filter-section">
-      <div class="Ingredients">
-        <span class="arrow"></span>
-        <input class="ingredients-input" type="text" value="Ingrédients">
-        <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+      <div class="ingredient-block">
+        <div class="Ingredients">
+          <input class="ingredients-input" type="text" placeholder="Ingrédients">
+          <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+        </div>
+        <div class="list-ingredient">
+          <ul class="ul-ingredient"></ul>
+        </div>
       </div>
-      <div class="Appareils">
-        <span class="arrow"></span>
-        <input class="appareils-input" type="text" value="Appareils">
-        <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+      <div class="appareil-block">
+        <div class="Appareils">
+          <input class="appareils-input" type="text" placeholder="Appareils">
+          <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+        </div>
+        <div class="list-appareil">
+          <ul class="ul-appareil"></ul>
+        </div>
       </div>
-      <div class="Ustensiles">
-        <span class="arrow"></span>
-        <input class="ustensiles-input" type="text" value="Ustensiles">
-        <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+      <div class="ustensile-block">
+        <div class="Ustensiles">
+          <input class="ustensiles-input" type="text" placeholder="Ustensiles">
+          <img src="assets/angle-down.svg" alt="angle-down" class="angle-down" />
+        </div>
+        <div class="list-ustensile">
+          <ul class="ul-ustensile"></ul>
+        </div>
       </div>
     </section>
+
+    <!------------------------------ Recettes ----------------------------------->
+    <div class="recipes-cards"></div>
+
   </main>
 
   <!------------------------------ JS Files ----------------------------------->

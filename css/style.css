@@ -13,6 +13,7 @@ header {
     flex-direction: column;
     align-items: center;
     margin: 0px 85px;
+    font-family: "DM Sans", sans-serif;
 }
 
 .search-bar {
@@ -44,6 +45,8 @@ header {
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    max-width: 1140px;
+    margin-left: 30px;
 }
 
 .ingredients-input, .appareils-input, .ustensiles-input {
@@ -78,4 +81,129 @@ header {
     width: 20px;
     margin-left: 40px;
     cursor: pointer;
+}
+
+.list-ingredient, .list-appareil, .list-ustensile {
+    color: white;
+    border-radius: 5px;
+    position: absolute;
+}
+
+.list-ingredient {
+    background-color: #3282F7;
+    display: none;
+}
+
+.list-appareil {
+    background-color: #68D9A4;
+    display: none;
+}
+
+.list-ustensile {
+    background-color: #ED6454;
+    display: none;
+}
+
+.ul-ingredient, .ul-appareil, .ul-ustensile {
+    list-style: none;
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+}
+
+.recipes-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.card {
+    background-color: #E7E7E7;
+    border-radius: 5px;
+    margin: 30px 15px;
+    width: 350px;
+}
+
+.card-header {
+    height: 200px;
+    background-color: #C7BEBE;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.card-reveal {
+    display: flex;
+    padding: 20px;
+}
+
+.flex-time {
+    display: flex;
+    align-items: center;
+}
+
+.card-time {
+    width: 75px;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.fa-regular, .far {
+    font-size: 20px;
+}
+
+.card-ingredients {
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .main {
+        margin: 0px 30px;
+    }
+
+    .recipes-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .search {
+        right: 55px;
+    }
+}
+
+@media screen and (max-width: 825px) {
+    .main {
+        margin: 0px 10px;
+    }
+
+    .filter-section {
+        flex-direction: column;
+    }
+
+    .Ingredients, .Appareils, .Ustensiles {
+        margin-bottom: 10px;
+    }
+
+    .recipes-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .ingredients-input, .appareils-input, .ustensiles-input {
+        width: 100%;
+    }
+
+    .angle-down {
+        right: 58px;
+    }
+
+    .search {
+        right: 40px;
+    }
+
+    .card {
+        width: 100%;
+        margin: 15px 0px;
+    }
 }
