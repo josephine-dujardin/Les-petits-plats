@@ -70,6 +70,10 @@ header {
     background-color: #ED6454;
 }
 
+.ingredients-input::placeholder, .appareils-input::placeholder, .ustensiles-input::placeholder {
+    color: white;
+}
+
 .Ingredients, .Appareils, .Ustensiles {
     display: flex;
     justify-content: center;
