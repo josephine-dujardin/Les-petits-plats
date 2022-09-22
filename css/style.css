@@ -136,12 +136,18 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    height: 65px;
+    padding: 0px 20px;
+}
+
+.card-title {
+    font-size: 15px;
 }
 
 .card-reveal {
     display: flex;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
+    height: 165px;
 }
 
 .flex-time {
@@ -151,7 +157,7 @@ header {
 
 .card-time {
     width: 75px;
-    font-size: 20px;
+    font-size: 15px;
     margin-left: 10px;
 }
 
@@ -161,6 +167,13 @@ header {
 
 .card-ingredients {
     margin-right: 20px;
+    width: 150px;
+    font-size: 12px;
+}
+
+.card-description {
+    width: 120px;
+    font-size: 12px;
 }
 
 @media screen and (max-width: 1200px) {
