@@ -1777,13 +1777,17 @@ const recipes = [
 ];
 
 (async function () {
+  // Défini l'affichage des ingrédients dans les cards
   const ingredientsDisplay = (elems) => {
     let res = "";
     for (const elem of elems) {
-      res += `${elem.ingredient} ${elem.quantity || ""} ${elem.unit || ""}\n`;
+      res += `<strong>${elem.ingredient}</strong> : ${elem.quantity || ""} ${
+        elem.unit || ""
+      }</br>`;
     }
     return res;
   };
+  // Crée et ajoute les tags
   const addTag = (value) => {
     filters.tags.push(value);
     const tags = document.getElementById("tags");
@@ -1795,14 +1799,15 @@ const recipes = [
       const value = e.target.value;
       const index = filters.tags.findIndex((tag) => tag === value);
       filters.tags.splice(index, 1);
-
       span.remove();
       filterVue();
     });
 
     filterVue();
   };
-  const displayList = (elems) => {
+
+  // Affiche les ingrédients dans les tags
+  const displayListIng = (elems) => {
     elems = [...new Set(elems)];
     elems.sort();
     elems.forEach((ingredient) => {
@@ -1810,8 +1815,38 @@ const recipes = [
       liIngredient.textContent = ingredient;
       ingredientUl.appendChild(liIngredient);
       liIngredient.addEventListener("click", () => {
-        const lowerCaseElem = ingredient.toLowerCase();
-        addTag(lowerCaseElem);
+        const lowerCaseIng = ingredient.toLowerCase();
+        addTag(lowerCaseIng);
+      });
+    });
+  };
+
+  // Affiche les appareils dans les tags
+  const displayListApp = (elems) => {
+    elems = [...new Set(elems)];
+    elems.sort();
+    elems.forEach((appliance) => {
+      let liAppliance = document.createElement("li");
+      liAppliance.textContent = appliance;
+      appareilUl.appendChild(liAppliance);
+      liAppliance.addEventListener("click", () => {
+        const lowerCaseApp = appliance.toLowerCase();
+        addTag(lowerCaseApp);
+      });
+    });
+  };
+
+  // Affiche les ustensils dans les tags
+  const displayListUs = (elems) => {
+    elems = [...new Set(elems)];
+    elems.sort();
+    elems.forEach((ustensils) => {
+      let liUstensils = document.createElement("li");
+      liUstensils.textContent = ustensils;
+      ustensileUl.appendChild(liUstensils);
+      liUstensils.addEventListener("click", () => {
+        const lowerCaseUs = ustensils.toLowerCase();
+        addTag(lowerCaseUs);
       });
     });
   };
@@ -1822,7 +1857,7 @@ const recipes = [
   const appareilInput = document.querySelector(".appareils-input");
   const ustensileInput = document.querySelector(".ustensiles-input");
   const ingredientUl = document.querySelector(".ul-ingredient");
-  const appareiltUl = document.querySelector(".ul-appareil");
+  const appareilUl = document.querySelector(".ul-appareil");
   const ustensileUl = document.querySelector(".ul-ustensile");
   const lists = {
     ingredients: [],
@@ -1834,17 +1869,18 @@ const recipes = [
     tags: [],
   };
   let latch = false;
+
+  // Crée et affiche les cards
   const getData = function (array) {
     array.forEach((item) => {
       let div = document.createElement("div");
-      let listAppareil = document.createElement("li");
       if (item.description.length > 90)
-        item.description = item.description.substring(0, 100) + "...";
+        item.description = item.description.substring(0, 150) + "...";
       div.innerHTML = `<div class="card">
         <div class="card-header">
         </div>
         <div class="card-content">
-          <h3>${item.name}</h3>
+          <h3 class="card-title">${item.name}</h3>
           <div class="flex-time">
             <i class="fa-regular fa-clock"></i>
             <p class="card-time">${item.time} min</p>
@@ -1854,26 +1890,44 @@ const recipes = [
           <p class="card-ingredients">${ingredientsDisplay(
             item.ingredients
           )}</p>
-          <p>${item.description}</p>
+          <p class="card-description">${item.description}</p>
         </div>
       </div>`;
       recipesCards.appendChild(div);
+
+      // Affiche les ingrédients dans les cards
       lists.ingredients = [
         ...lists.ingredients,
         ...item.ingredients.map(({ ingredient }) => ingredient),
       ];
-      item.ustensils.forEach((elem) => {
-        let liUstensil = document.createElement("li");
-        liUstensil.textContent = elem;
-        ustensileUl.appendChild(liUstensil);
-      });
-      listAppareil.textContent = item.appliance;
-      appareiltUl.appendChild(listAppareil);
+
+      // Affiche les ustensils dans les cards
+      lists.ustensils = [...lists.ustensils, ...item.ustensils];
+
+      let liUstensil = document.createElement("li");
+      liUstensil.textContent = lists.ustensils[122];
+
+      ustensileUl.appendChild(liUstensil);
+
+      // Affiche les appareils dans les cards
+      let liAppareils = document.createElement("li");
+      liAppareils.textContent = lists.appareils[50];
+
+      appareilUl.appendChild(liAppareils);
     });
   };
-  getData(recipes);
-  displayList(lists.ingredients);
 
+  // Met les appareils dans un array
+  for (var x = 0; x < recipes.length; x++) {
+    lists.appareils.push(recipes[x].appliance);
+  }
+
+  getData(recipes);
+  displayListIng(lists.ingredients);
+  displayListApp(lists.appareils);
+  displayListUs(lists.ustensils);
+
+  // Filtre les recettes dans la searchbar et les tags
   const filterVue = () => {
     recipesCards.innerHTML = "";
     const cloned = [...recipes];
@@ -1889,7 +1943,9 @@ const recipes = [
           .join(" ")
           .toLowerCase()
           .includes(filter) +
-        recipe.description.toLowerCase().includes(filter)
+        recipe.description.toLowerCase().includes(filter) +
+        recipe.appliance.toLowerCase().includes(filter) +
+        recipe.ustensils.join(" ").toLowerCase().includes(filter)
       );
     };
     const filtered = cloned.filter((item) => {
@@ -1917,11 +1973,22 @@ const recipes = [
     }
   });
 
-  //   display list filtre
+  // Rafraichit le texte des ustensiles dans le tag
+  ingredientUl.addEventListener("click", refreshesUstensilsText);
+  appareilUl.addEventListener("click", refreshesUstensilsText);
+  ustensileUl.addEventListener("click", refreshesUstensilsText);
 
+  document
+    .getElementById("tags")
+    .addEventListener("click", refreshesUstensilsText);
+
+  function refreshesUstensilsText() {
+    ustensileUl.innerHTML = "";
+    displayListUs(lists.ustensils);
+  }
+
+  // Affiche la liste des ingrédients dans le tag
   ingredientInput.addEventListener("click", displayIngredient);
-  // ingredientInput.addEventListener("focus", displayIngredient);
-  // ingredientInput.addEventListener("blur", displayIngredient);
 
   let ingredientList = document.querySelector(".list-ingredient");
 
@@ -1933,6 +2000,7 @@ const recipes = [
     }
   }
 
+  // Affiche la liste des appareils dans le tag
   appareilInput.addEventListener("click", displayAppareil);
 
   let appareilList = document.querySelector(".list-appareil");
@@ -1945,6 +2013,7 @@ const recipes = [
     }
   }
 
+  // Affiche la liste des ustensils dans le tag
   ustensileInput.addEventListener("click", displayUstensile);
 
   let ustensileList = document.querySelector(".list-ustensile");
@@ -1957,6 +2026,7 @@ const recipes = [
     }
   }
 
+  // Filtre les ingrédients dans la searchbar du tag
   ingredientInput.addEventListener("input", function (e) {
     if (this.value.length > 2) {
       latch = false;
@@ -1966,11 +2036,49 @@ const recipes = [
         return item.toLowerCase().includes(e.target.value.toLowerCase());
       });
       console.log("filtered", filtered);
-      displayList(filtered);
+      displayListIng(filtered);
     } else if (this.value.length < 3 && !latch) {
       latch = true;
       ingredientUl.innerHTML = "";
-      displayList(lists.ingredients);
+      displayListIng(lists.ingredients);
+    }
+  });
+
+  // Filtre les appareils dans la searchbar du tag
+  appareilInput.addEventListener("input", function (e) {
+    if (this.value.length > 2) {
+      latch = false;
+      appareilUl.innerHTML = "";
+      const cloned = [...lists.appareils];
+
+      const filtered = cloned.filter((item) => {
+        return item.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+      console.log("filtered", filtered);
+      displayListApp(filtered);
+    } else if (this.value.length < 3 && !latch) {
+      latch = true;
+      appareilUl.innerHTML = "";
+      displayListApp(lists.appareils);
+    }
+  });
+
+  // Filtre les ustensils dans la searchbar du tag
+  ustensileInput.addEventListener("input", function (e) {
+    if (this.value.length > 2) {
+      latch = false;
+      ustensileUl.innerHTML = "";
+      const cloned = [...lists.ustensils];
+
+      const filtered = cloned.filter((item) => {
+        return item.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+      console.log("filtered", filtered);
+      displayListUs(filtered);
+    } else if (this.value.length < 3 && !latch) {
+      latch = true;
+      ustensileUl.innerHTML = "";
+      displayListUs(lists.ustensils);
     }
   });
 })();
