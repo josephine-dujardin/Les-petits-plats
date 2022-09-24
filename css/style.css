@@ -41,6 +41,51 @@ header {
     border: none;
 }
 
+.tag-section {
+    width: 100%;
+    max-width: 1140px;
+    margin-left: 30px;
+}
+
+#tag {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 13px;
+    position: relative;
+    top: -16px;
+    margin-right: 10px;
+    font-family: "DM Sans", sans-serif;
+    width: 131px;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-circle-xmark:before {
+    content: "\f017";
+    margin-left: 10px;
+    font-family: "Font Awesome 6 Free";
+}
+
+#span-tag {
+    display: flex;
+}
+
+.bg-blue {
+    background-color: #3282F7;
+}
+
+.bg-green {
+    background-color: #68D9A4;
+}
+
+.bg-orange {
+    background-color: #ED6454;
+}
+
 .filter-section {
     display: flex;
     justify-content: flex-start;
@@ -80,11 +125,49 @@ header {
     align-items: center;
 }
 
-.angle-down {
+.angle-down-ing {
     position: absolute;
     width: 20px;
     margin-left: 40px;
     cursor: pointer;
+}
+
+.angle-up-ing {
+    position: absolute;
+    width: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+    display: none;
+}
+
+.angle-down-app {
+    position: absolute;
+    width: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+}
+
+.angle-up-app {
+    position: absolute;
+    width: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+    display: none;
+}
+
+.angle-down-us {
+    position: absolute;
+    width: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+}
+
+.angle-up-us {
+    position: absolute;
+    width: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+    display: none;
 }
 
 .list-ingredient, .list-appareil, .list-ustensile {
@@ -112,6 +195,13 @@ header {
     list-style: none;
     padding-inline-start: 20px;
     padding-inline-end: 20px;
+    display: grid;
+    gap: 0rem 5rem;
+    grid-template-columns: repeat(3, 2fr);
+}
+
+#not-found-div {
+    display: none;
 }
 
 .recipes-cards {
@@ -174,6 +264,7 @@ header {
 .card-description {
     width: 120px;
     font-size: 12px;
+    overflow: auto;
 }
 
 @media screen and (max-width: 1200px) {
