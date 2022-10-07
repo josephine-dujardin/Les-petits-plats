@@ -20,7 +20,7 @@
     span.textContent = value;
     tags.appendChild(span);
     span.addEventListener("click", (e) => {
-      const value = e.target.value;
+      const value = e.target.innerHTML;
       const index = filters.tags.findIndex((tag) => tag === value);
       filters.tags.splice(index, 1);
 
@@ -32,6 +32,7 @@
     filterVue();
   };
 
+  // Ajoute une couleur aux tags
   const displayList = (elems, typeIndex) => {
     let color, ul;
     switch (typeIndex) {
@@ -49,6 +50,7 @@
         break;
     }
 
+    // Crée une liste pour les filtres
     elems = [...new Set(elems)];
     elems.sort();
     elems.forEach((item) => {
@@ -148,24 +150,23 @@
         recipe.ustensils.join(" ").toLowerCase().includes(filter)
       );
     };
+
+    // Filtre les cartes en fonction des tags séléctionnés
     const filtered = recipes.filter((item) => {
-      if (!filters.input && !filters.tags.length) return true;
-
-      let searchFilter = 0;
-      if (filters.input !== "")
-        searchFilter = filterRecipe(item, filters.input);
-
+      const searchFilter = filterRecipe(item, filters.input);
       const tagsFilter = filters.tags.map((tag) => {
         return filterRecipe(item, tag);
       });
       let res = searchFilter;
       tagsFilter.forEach((t) => {
-        res = res + t;
+        res = res && t;
       });
       return res;
     });
     getData(filtered);
   };
+
+  // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
   input.addEventListener("input", function (e) {
     filters.input = e.target.value.toLowerCase();
     if (this.value.length >= 2) {
@@ -185,6 +186,7 @@
     }
   });
 
+  // Gère les flèches des tags
   const toggleListTags = (list, angleDown, angleUp) => {
     if (list.style.display === "none") {
       list.style.display = "grid";
@@ -221,6 +223,7 @@
     toggleListTags(ustensileList, angleDownUs, angleUpUs);
   });
 
+  // Filtre les valeurs entrées dans la searchbar et les tags
   const filterTagInput = (searchValue) => {
     if (searchValue.length > 2) {
       latch = false;
@@ -254,6 +257,7 @@
     filterVue();
   };
 
+  // Filtre les valeurs entrées dans les tags
   const filterTagList = (searchValue, typeIndex) => {
     let ul, list;
     switch (typeIndex) {
@@ -271,19 +275,7 @@
         break;
     }
 
-    if (searchValue.length > 2) {
-      latch = false;
-      ul.innerHTML = "";
-
-      const filtered = list.filter((item) => {
-        return item.toLowerCase().includes(searchValue.toLowerCase());
-      });
-      displayList(filtered, typeIndex);
-    } else if (searchValue.length < 3 && !latch) {
-      latch = true;
-      ul.innerHTML = "";
-      displayList(list, typeIndex);
-    }
+    filterTagInput(searchValue);
   };
 
   // Filtre les ingrédients dans la searchbar du tag
