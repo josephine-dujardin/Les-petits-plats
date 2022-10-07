@@ -15,24 +15,24 @@
     <img src="assets/logo.png" alt="logo" class="logo" />
   </header>
 
-  <!------------------------ Barre de recherche ----------------------------->
+  <!-- Barre de recherche -->
   <main class="main">
-    <section class="search-bar">
+    <div class="search-bar">
       <div class="field-input">
         <input class="search-input" id="search-input" type="text" placeholder="Rechercher une recette">
         <img src="assets/search.png" alt="search" class="search" />
       </div>
-    </section>
+    </div>
 
-    <!------------------------------ Tags ----------------------------------->
-    <section class="tag-section">
+    <!-- Tags -->
+    <div class="tag-section">
       <div id="tags">
         <div id="span-tag"></div>
       </div>
-    </section>
+    </div>
 
-    <!---------------------- Filtre par catégorie ---------------------------->
-    <section class="filter-section">
+    <!-- Filtre par catégorie -->
+    <div class="filter-section">
       <div class="ingredient-block">
         <div class="Ingredients">
           <input class="ingredients-input" type="text" placeholder="Ingrédients">
@@ -63,9 +63,9 @@
           <ul class="ul-ustensile"></ul>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!----------------------------- Recettes ---------------------------------->
+    <!-- Recettes -->
     <div class="recipes-cards"></div>
     <div id="not-found-div">
       <p>Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc.</p>
@@ -73,7 +73,7 @@
 
   </main>
 
-  <!------------------------------ JS Files ----------------------------------->
+  <!-- JS Files -->
   <script src="data/recipes.js"></script>
   <script src="scripts/pages/index.js"></script>
 </body>
