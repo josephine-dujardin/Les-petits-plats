@@ -20,7 +20,7 @@
     span.textContent = value;
     tags.appendChild(span);
     span.addEventListener("click", (e) => {
-      const value = e.target.value;
+      const value = e.target.innerHTML;
       const index = filters.tags.findIndex((tag) => tag === value);
       filters.tags.splice(index, 1);
 
@@ -277,22 +277,7 @@
         break;
     }
 
-    if (searchValue.length > 2) {
-      latch = false;
-      ul.innerHTML = "";
-
-      const filtered = [];
-      for (const item of list) {
-        if (item.toLowerCase().includes(searchValue.toLowerCase())) {
-          filtered.push(item);
-        }
-      }
-      displayList(filtered, typeIndex);
-    } else if (searchValue.length < 3 && !latch) {
-      latch = true;
-      ul.innerHTML = "";
-      displayList(list, typeIndex);
-    }
+    filterTagInput(searchValue);
   };
 
   // Filtre les ingrédients dans la searchbar du tag
