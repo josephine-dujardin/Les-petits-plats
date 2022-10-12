@@ -32,7 +32,6 @@
     filterVue();
   };
 
-  // Ajoute une couleur aux tags
   const displayList = (elems, typeIndex) => {
     let color, ul;
     switch (typeIndex) {
@@ -50,10 +49,9 @@
         break;
     }
 
-    // Crée une liste pour les filtres
     elems = [...new Set(elems)];
     elems.sort();
-    elems.forEach((item) => {
+    for (const item of elems) {
       const newLi = document.createElement("li");
       newLi.textContent = item;
       ul.appendChild(newLi);
@@ -66,7 +64,7 @@
         },
         { once: true }
       );
-    });
+    }
   };
 
   const recipesCards = document.querySelector(".recipes-cards");
@@ -90,7 +88,7 @@
 
   // Crée et affiche les cards
   const getData = function (array) {
-    array.forEach((item) => {
+    for (const item of array) {
       let div = document.createElement("div");
       div.innerHTML = `<div class="card">
           <div class="card-header">
@@ -112,17 +110,22 @@
       recipesCards.appendChild(div);
 
       // Affiche les ingrédients dans les cards
-      lists.ingredients = [
-        ...lists.ingredients,
-        ...item.ingredients.map(({ ingredient }) => ingredient.toLowerCase()),
-      ];
+      const mappedIng = [];
+      for (const { ingredient } of item.ingredients) {
+        mappedIng.push(ingredient.toLowerCase());
+      }
+      lists.ingredients = [...lists.ingredients, ...mappedIng];
 
       // Rempli les ustensils dans lists
-      lists.ustensils.push(...item.ustensils.map((u) => u.toLowerCase()));
+      const mappedUs = [];
+      for (const u of item.ustensils) {
+        mappedUs.push(u.toLowerCase());
+      }
+      lists.ustensils.push(...mappedUs);
 
       // Rempli les appareils dans lists
       lists.appareils.push(item.appliance.toLowerCase());
-    });
+    }
   };
 
   getData(recipes);
@@ -134,24 +137,19 @@
   const filterVue = () => {
     recipesCards.innerHTML = "";
     const filterRecipe = (recipe, filter) => {
+      let ing = "";
+      for (const elem of recipe.ingredients) {
+        ing += `${elem.ingredient} ${elem.quantity || ""} ${elem.unit || ""}`;
+      }
       return (
         recipe.name.toLowerCase().includes(filter) +
-        recipe.ingredients
-          .map((elem) => {
-            return `${elem.ingredient} ${elem.quantity || ""} ${
-              elem.unit || ""
-            }`;
-          })
-          .join(" ")
-          .toLowerCase()
-          .includes(filter) +
+        ing.toLowerCase().includes(filter) +
         recipe.description.toLowerCase().includes(filter) +
         recipe.appliance.toLowerCase().includes(filter) +
         recipe.ustensils.join(" ").toLowerCase().includes(filter)
       );
     };
 
-    // Filtre les cartes en fonction des tags séléctionnés
     const filtered = recipes.filter((item) => {
       const searchFilter = filterRecipe(item, filters.input);
       const tagsFilter = filters.tags.map((tag) => {
@@ -169,9 +167,16 @@
   // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
   input.addEventListener("input", function (e) {
     filters.input = e.target.value.toLowerCase();
-    if (this.value.length >= 2) {
+    if (this.value.length >= 3) {
       latch = false;
       filterVue();
+      // Relie la searchbar principale à celle des tags
+
+      filterTagInput(e.target.value.toLowerCase());
+
+      filterTagInput(e.target.value.toLowerCase());
+
+      filterTagInput(e.target.value.toLowerCase());
 
       const notFound = document.getElementById("not-found-div");
       if (recipesCards.innerHTML === "") {
@@ -182,11 +187,16 @@
     } else if (this.value.length <= 3 && !latch) {
       latch = true;
       recipesCards.innerHTML = "";
+      ingredientUl.innerHTML = "";
+      appareilUl.innerHTML = "";
+      ustensileUl.innerHTML = "";
       getData(recipes);
+      displayList(lists.ingredients, 0);
+      displayList(lists.appareils, 1);
+      displayList(lists.ustensils, 2);
     }
   });
 
-  // Gère les flèches des tags
   const toggleListTags = (list, angleDown, angleUp) => {
     if (list.style.display === "none") {
       list.style.display = "grid";
@@ -223,7 +233,6 @@
     toggleListTags(ustensileList, angleDownUs, angleUpUs);
   });
 
-  // Filtre les valeurs entrées dans la searchbar et les tags
   const filterTagInput = (searchValue) => {
     if (searchValue.length > 2) {
       latch = false;
@@ -231,20 +240,29 @@
       appareilUl.innerHTML = "";
       ustensileUl.innerHTML = "";
 
-      const filteredIng = lists.ingredients.filter((item) => {
-        return item.toLowerCase().includes(searchValue);
-      });
+      const filteredIng = [];
+      for (const item of lists.ingredients) {
+        if (item.toLowerCase().includes(searchValue)) {
+          filteredIng.push(item);
+        }
+      }
       displayList(filteredIng, 0);
 
-      const filteredApp = lists.appareils.filter((item) => {
-        return item.toLowerCase().includes(searchValue);
-      });
+      const filteredApp = [];
+      for (const item of lists.appareils) {
+        if (item.toLowerCase().includes(searchValue)) {
+          filteredApp.push(item);
+        }
+      }
       displayList(filteredApp, 1);
 
-      const filteredUst = lists.ustensils.filter((item) => {
-        return item.toLowerCase().includes(searchValue);
-      });
-      displayList(filteredUst, 2);
+      const filteredUs = [];
+      for (const item of lists.ustensils) {
+        if (item.toLowerCase().includes(searchValue)) {
+          filteredUs.push(item);
+        }
+      }
+      displayList(filteredUs, 2);
     } else if (searchValue.length < 3) {
       ingredientUl.innerHTML = "";
       appareilUl.innerHTML = "";
@@ -257,7 +275,6 @@
     filterVue();
   };
 
-  // Filtre les valeurs entrées dans les tags
   const filterTagList = (searchValue, typeIndex) => {
     let ul, list;
     switch (typeIndex) {
@@ -283,25 +300,13 @@
     filterTagList(this.value.toLowerCase());
   });
 
-  input.addEventListener("input", function (e) {
-    filterTagInput(e.target.value.toLowerCase());
-  });
-
   // Filtre les appareils dans la searchbar du tag
   appareilInput.addEventListener("input", function () {
     filterTagList(this.value.toLowerCase());
   });
 
-  input.addEventListener("input", function (e) {
-    filterTagInput(e.target.value.toLowerCase());
-  });
-
   // Filtre les ustensils dans la searchbar du tag
   ustensileInput.addEventListener("input", function () {
     filterTagList(this.value.toLowerCase());
-  });
-
-  input.addEventListener("input", function (e) {
-    filterTagInput(e.target.value.toLowerCase());
   });
 })();
