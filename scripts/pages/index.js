@@ -169,9 +169,16 @@
   // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
   input.addEventListener("input", function (e) {
     filters.input = e.target.value.toLowerCase();
-    if (this.value.length >= 2) {
+    if (this.value.length >= 3) {
       latch = false;
       filterVue();
+      // Relie la searchbar principale à celle des tags
+
+      filterTagInput(e.target.value.toLowerCase());
+
+      filterTagInput(e.target.value.toLowerCase());
+
+      filterTagInput(e.target.value.toLowerCase());
 
       const notFound = document.getElementById("not-found-div");
       if (recipesCards.innerHTML === "") {
@@ -182,7 +189,13 @@
     } else if (this.value.length <= 3 && !latch) {
       latch = true;
       recipesCards.innerHTML = "";
+      ingredientUl.innerHTML = "";
+      appareilUl.innerHTML = "";
+      ustensileUl.innerHTML = "";
       getData(recipes);
+      displayList(lists.ingredients, 0);
+      displayList(lists.appareils, 1);
+      displayList(lists.ustensils, 2);
     }
   });
 
@@ -283,25 +296,13 @@
     filterTagList(this.value.toLowerCase());
   });
 
-  input.addEventListener("input", function (e) {
-    filterTagInput(e.target.value.toLowerCase());
-  });
-
   // Filtre les appareils dans la searchbar du tag
   appareilInput.addEventListener("input", function () {
     filterTagList(this.value.toLowerCase());
   });
 
-  input.addEventListener("input", function (e) {
-    filterTagInput(e.target.value.toLowerCase());
-  });
-
   // Filtre les ustensils dans la searchbar du tag
   ustensileInput.addEventListener("input", function () {
     filterTagList(this.value.toLowerCase());
-  });
-
-  input.addEventListener("input", function (e) {
-    filterTagInput(e.target.value.toLowerCase());
   });
 })();
