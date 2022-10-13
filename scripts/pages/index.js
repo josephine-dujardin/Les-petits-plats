@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 (async function () {
   // Défini l'affichage des ingrédients dans les cards
   const ingredientsDisplay = (elems) => {
@@ -272,19 +274,18 @@
 
   // Filtre les valeurs entrées dans les tags
   const filterTagList = (searchValue, typeIndex) => {
-    let ul, list;
     switch (typeIndex) {
       case 0: // ingredient
-        ul = ingredientUl;
-        list = lists.ingredients;
+        ingredientUl;
+        lists.ingredients;
         break;
       case 1: // appareils
-        ul = appareilUl;
-        list = lists.appareils;
+        appareilUl;
+        lists.appareils;
         break;
       case 2: // ustensiles
-        ul = ustensileUl;
-        list = lists.ustensils;
+        ustensileUl;
+        lists.ustensils;
         break;
     }
 
